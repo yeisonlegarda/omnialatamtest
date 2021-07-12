@@ -36,4 +36,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/users/', include('user.urls')),
     path('swagger-docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('api/ecomerce/',include('ecomerce.urls')),
 ]

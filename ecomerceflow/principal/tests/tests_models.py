@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+from principal import models
 
 
 class ModelTest(TestCase):
@@ -28,3 +29,21 @@ class ModelTest(TestCase):
             password='Testpassword'
         )
         self.assertTrue(user.is_superuser)
+
+    def test_product(self):
+        """test product model creation and str conversion"""
+        product = models.Product.objects.create(
+            name='TestProduct',
+            price=50000,
+        )
+        self.assertIn(product.name,str(product))
+        self.assertEqual(product.stockQuantity,0)
+
+    def test_order(self):
+        """test product model creation and str conversion"""
+        product = models.Product.objects.create(
+            name='TestProduct',
+            price=50000,
+        )
+        self.assertIn(product.name,str(product))
+        self.assertEqual(product.stockQuantity,0)
