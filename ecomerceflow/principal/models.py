@@ -70,6 +70,10 @@ class Payment(models.Model):
     value = models.DecimalField(max_digits=7, decimal_places=2, default=0)
     date = models.DateTimeField(auto_now=True)
     orders = models.ManyToManyField('Order')
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
 
     class Meta:
         db_table = 'payment'
@@ -84,6 +88,10 @@ class Shipment(models.Model):
     received_date = models.DateTimeField(null=True)
     order = models.ForeignKey(
         'Order',
+        on_delete=models.CASCADE
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
     )
 

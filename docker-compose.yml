@@ -1,14 +1,27 @@
 version: "3.7"
 services:
   db:
-      image: postgres:11.5      
-      environment:
-        - POSTGRES_USER=flow
-        - POSTGRES_PASSWORD=flow
-        - POSTGRES_DB=ecomerce
+      image: postgres:11.5
+      env_file:
+      - .env_secret.env
       expose:
         - 7083
       ports:
         - '7083:5432'
       volumes:
-        -  /home/psdata:/var/lib/postgresql/data  
+        -  /home/psdata:/var/lib/postgresql/data
+  app:
+    build:
+      context: .
+    expose:
+        - 72
+    ports:
+      - "72:8000"
+    env_file:
+      - .env_secret.env
+    volumes:
+      - ./ecomerceflow:/ecomerceflow
+    command: >
+      sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - db     

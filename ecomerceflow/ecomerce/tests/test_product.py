@@ -101,7 +101,7 @@ class PrivateProductApiTest(TestCase):
         self.assertEqual(product.name, payload['name'])
 
     def test_full_update_product(self):
-        """Test updatinhg a recipe with put"""
+        """Test updating a recipe with put"""
         product = create_product()
         payload = {
             'name': 'test product 2',
@@ -115,3 +115,18 @@ class PrivateProductApiTest(TestCase):
         self.assertEqual(product.name, payload['name'])
         self.assertEqual(product.price, payload['price'])
         self.assertEqual(product.stockQuantity, payload['stockQuantity'])
+
+    def test_product_pagination(self):
+        """Test pagination over product query"""
+        products = []
+        limit = 2
+        products.append(create_product(name="test product"))
+        products.append(create_product(name="test product 2"))
+        products.append(create_product(name="test product 3"))
+        products.append(create_product(name="test product 4"))
+        products.append(create_product(name="test product 5"))
+        res = self.client.get(PRODUCTS_URL, {'limit': limit, 'offset': 0})
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(res.data['results']), limit)
+        self.assertTrue(res.data['previous'] is None)
+        self.assertFalse(res.data['next'] is None)

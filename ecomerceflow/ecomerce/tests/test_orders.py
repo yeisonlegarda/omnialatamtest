@@ -21,7 +21,7 @@ def detail_url(order_id):
 
 
 class PublicOrdersApiTest(TestCase):
-    """Test authenticated need for products operations"""
+    """Test authenticated need for order operations"""
 
     def setUp(self):
         self.client = APIClient()
